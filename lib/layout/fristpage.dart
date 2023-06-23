@@ -39,29 +39,12 @@ class firstlayout extends StatelessWidget {
 
                   ) ,
                   
-                  // Text(
-                  //   ' knowing that your efforts today will shape your success tomorrow.. Sir :  ${model.name}',
-                  //   style: TextStyle(fontSize: 18, wordSpacing: 0.5),
-                  // )
+               
                   
                   ),
               Spacer(),
           
-              // Container(
-              //     width: 200,
-              //     margin: EdgeInsets.all(20),
-              //     child: ElevatedButton(
-              //         onPressed: () {
-                       
-              //             print(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,");
-              //             navigateTo(context, secoundlayout());
-                       
-              //         },
-              //         child: Icon(
-              //           Icons.arrow_forward_ios_rounded,
-              //           size: 32,
-              //         ))),
-          
+             
             ],
           ),
         );

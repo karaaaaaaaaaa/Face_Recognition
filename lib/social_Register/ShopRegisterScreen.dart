@@ -23,25 +23,7 @@ class socialRegisterScreen extends StatelessWidget {
           if (state is socialcreateuserSuccessState) {
             navigateAndFinish(context, HomeScreen());
           }
-          // if(state is socialRegisterSuccessState)
-          // {
-          //   if(state.loginModel.status==true)
-          //   {
-          //     CashHelper.saveData(key: 'token', value:state.loginModel.data!.token
-          //     ).then((value) {
-          //       // token=state.loginModel.data!.token!;
-          //       showToast(text:(state.loginModel.message)! , state: ToastState.Success);
-          //       navigateAndFinish(context, loginScreen());
-          //     });
-          //   }
-          //   else
-          //   {
-          //     print(state.loginModel.message);
-          //     showToast(text: (state.loginModel.message)!,
-          //         state: ToastState.Error);
-          //   }
-          // }
-        },
+       },
         builder: (context, state) {
           return Scaffold(
               appBar: AppBar(),

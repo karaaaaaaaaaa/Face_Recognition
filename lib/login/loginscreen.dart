@@ -17,7 +17,6 @@ class loginScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
   var emailControl = TextEditingController();
   var passwordControl = TextEditingController();
-  // var emailControl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

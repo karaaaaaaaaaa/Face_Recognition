@@ -9,48 +9,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Settings/Settings_Screen.dart';
 import 'all/components/bloc_observer.dart';
 import 'all/components/constants/constants.dart';
-// import 'all/cubits/RegisterCubit copy/RegisterCubit.dart';
+
 import 'layout/secound.dart';
 import 'network/local/cash_helper.dart';
 import 'network/remote/dio_helper.dart';
 
-// void main()async {
-//   Bloc.observer = MyBlocObserver();
-
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//    Bloc.observer = MyBlocObserver();
-//   DioHelper.init();
-//   await CashHelper.init();
-
-//   runApp(const MaterialApp(
-//     debugShowCheckedModeBanner: false,
-//     home:Home()));
-//     runApp(
-//       MultiBlocProvider(
-//           providers: [
-
-//             BlocProvider<RegisterCubit>(
-//               create: (context) =>
-//                   RegisterCubit(),
-//             ),
-//             BlocProvider<RecognitionCubit>(
-//               create: (context) =>
-//                   RecognitionCubit(),
-//             ),
-//              BlocProvider(
-//               create: (context) => Socialcubit()
-//                 ..GetuserData()
-//                 )
-//           ],
-//           child:
-//           MaterialApp(
-//             home:loginScreen(),
-//           ),
-
-//       )
-//   );
-// }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -86,12 +49,7 @@ class myApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          // BlocProvider<RegisterCubit>(
-          //   create: (context) => RegisterCubit(),
-          // ),
-          // BlocProvider<RecognitionCubit>(
-          //   create: (context) => RecognitionCubit(),
-          // ),
+    
           BlocProvider(create: (context) => Socialcubit()..GetuserData())
         ],
         child: BlocConsumer<Socialcubit, cubitStates>(
