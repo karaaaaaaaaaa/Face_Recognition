@@ -1,4 +1,4 @@
-import 'package:Face_Recognition/HomeScreen.dart';
+import 'package:Face_Recognition/all/HomeScreen.dart';
 import 'package:Face_Recognition/login/loginscreen.dart';
 import 'package:Face_Recognition/socialCubit/cubit.dart';
 import 'package:Face_Recognition/socialCubit/state.dart';
@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Settings/Settings_Screen.dart';
 import 'all/components/bloc_observer.dart';
 import 'all/components/constants/constants.dart';
-import 'all/cubits/RegisterCubit copy/RegisterCubit.dart';
+// import 'all/cubits/RegisterCubit copy/RegisterCubit.dart';
 import 'layout/secound.dart';
 import 'network/local/cash_helper.dart';
 import 'network/remote/dio_helper.dart';

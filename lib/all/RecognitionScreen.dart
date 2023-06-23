@@ -1,35 +1,34 @@
 import 'dart:io';
-import 'package:Face_Recognition/HomeScreen.dart';
 import 'package:Face_Recognition/ML/Recognition.dart';
-import 'package:Face_Recognition/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as img;
-import 'ML/Recognizer.dart';
+import '../ML/Recognizer.dart';
 
-class RegistrationScreen extends StatefulWidget {
-  const RegistrationScreen({Key? key}) : super(key: key);
+
+class RecognitionScreen extends StatefulWidget {
+  const RecognitionScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegistrationScreen> createState() => _HomePageState();
+  State<RecognitionScreen> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<RegistrationScreen> {
+class _HomePageState extends State<RecognitionScreen> {
   //TODO declare variables
   late ImagePicker imagePicker;
   File? _image;
-   //convert _image to readAsBytes TODperform Face Recognition 
+  //  FacePainter? model;
   var image;
+  List<Recognition> recognitions = [];
   List<Face> faces = [];
   //TODO declare detector
-    // تحديد ملامح الوجه
-
+  // تحديد ملامح الوجه
   dynamic faceDetector;
 
   //TODO declare face recognizer
-// object from Recognizer Model
+  // object from class Recognizer
   late Recognizer _recognizer;
 
   @override
@@ -40,19 +39,14 @@ class _HomePageState extends State<RegistrationScreen> {
 
     //TODO initialize detector
     final options = FaceDetectorOptions(
-      // قوم بتمكين تصنيف الوجوه،
-      // مما يعني أن مكتشف الوجه سيحاول تصنيف الوجوه المكتشفة إلى فئات مثل "مبتسم"، "عيون مفتوحة"،
         enableClassification: false,
-        //  يقوم بتمكين كشف وتتبع معالم الوجه، والتي تمثل الحدود الخارجية للملامح الوجهية.
         enableContours: false,
-        // يقوم بتمكين كشف وتتبع العلامات الأرضية للوجه مثل العيون والأنف والفم.
         enableLandmarks: false);
 
-    //TODO initialize face detector
-    // used to configure تكوين سلوك the behavior of the face detector
+    //TODO initalize face detector
     faceDetector = FaceDetector(options: options);
 
-    //TODO initialize face recognizer
+    //TODO initalize face recognizer
     _recognizer = Recognizer();
   }
 
@@ -85,8 +79,6 @@ class _HomePageState extends State<RegistrationScreen> {
 
     //TODO passing input to face detector and getting detected faces
     final inputImage = InputImage.fromFile(_image!);
-    // ندخل الصوره علي faceDetector
-
     faces = await faceDetector.processImage(inputImage);
 
     //TODO call the method to perform face recognition on detected faces
@@ -106,7 +98,8 @@ class _HomePageState extends State<RegistrationScreen> {
     image = await _image?.readAsBytes();
     image = await decodeImageFromList(image);
     print("${image.width}   ${image.height}");
-// المستطيل
+// 1111111111111111
+     recognitions.clear();
     for (Face face in faces) {
       Rect faceRect = face.boundingBox;
       num left = faceRect.left < 0 ? 0 : faceRect.left;
@@ -117,89 +110,30 @@ class _HomePageState extends State<RegistrationScreen> {
           faceRect.bottom > image.height ? image.height - 1 : faceRect.bottom;
       num width = right - left;
       num height = bottom - top;
-
+// ############################################3
       //TODO crop face
       File cropedFace = await FlutterNativeImage.cropImage(_image!.path,
           left.toInt(), top.toInt(), width.toInt(), height.toInt());
       final bytes = await File(cropedFace.path).readAsBytes();
       final img.Image? faceImg = img.decodeImage(bytes);
-      // يقوم بتمرير الصورة المُفكَّرة والمستطيل المحدد لدالة 
-      // للقيام بتعرف الوجه واسترجاع بيانات التعرف.
+      
       Recognition recognition =
           _recognizer.recognize(faceImg!, face.boundingBox);
-
-      //TODO show face registration dialogue
-      showFaceRegistrationDialogue(cropedFace, recognition);
+          // @@@@@@@@@@@@@@@@@
+      if (recognition.distance > 1) {
+        recognition.name = "Unknown";
+      }
+      recognitions.add(recognition);
+      
     }
     drawRectangleAroundFaces();
   }
 
-  //TODO Face Registration Dialogue
-  showFaceRegistrationDialogue(File cropedFace, Recognition recognition) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text("Face Registration",
-            style: TextStyle(color: Color.fromARGB(255, 231, 9, 9)),
-            textAlign: TextAlign.center),
-        alignment: Alignment.center,
-        content: SizedBox(
-          height: 340,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Image.file(
-                cropedFace,
-                width: 200,
-                height: 200,
-              ),
-              SizedBox(
-                width: 200,
-                child: TextField(
-                    controller: textEditingController,
-                    decoration: const InputDecoration(
-                        fillColor: Colors.white,
-                        filled: true,
-                        hintText: "Enter Name")),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    // in HomeScreen registered MAP
-                    HomeScreen.registered.putIfAbsent(
-                        textEditingController.text, () => recognition);
-                    textEditingController.text = "";
-                    Navigator.pop(context);
-                    // under 
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Face Registered"),
-                    ));
-                  },
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.blue, minimumSize: const Size(200, 40)),
-                  child: const Text("Register"))
-            ],
-          ),
-        ),
-        contentPadding: EdgeInsets.zero,
-      ),
-    );
-  }
-
   //TODO draw rectangles
   drawRectangleAroundFaces() async {
-    image = await _image?.readAsBytes();
-    image = await decodeImageFromList(image);
-    print("${image.width}   ${image.height}");
     setState(() {
       image;
       faces;
-      print("faces====== ${faces.length}");
     });
   }
 
@@ -207,28 +141,56 @@ class _HomePageState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    return 
-    
-    Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           image != null
-              ? Container(
-                  margin: const EdgeInsets.only(
-                      top: 60, left: 30, right: 30, bottom: 0),
-                  child: FittedBox(
-                    child: SizedBox(
-                      width: image.width.toDouble(),
-                      height: image.width.toDouble(),
-                      child: CustomPaint(
-                        // ظهور الصوره والاوجه بالمسطيل
-                        painter:
-                            FacePainter(facesList: faces, imageFile: image),
-                      ),
+              ? Column(
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(
+                              top: 60, left: 30, right: 30, bottom: 0),
+                          child: FittedBox(
+                            child: SizedBox(
+                              width: image.width.toDouble(),
+                              height: image.width.toDouble(),
+                              child: CustomPaint(
+                                painter: FacePainter(
+                                  facesList: recognitions,
+                                  imageFile: image,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                         SizedBox(
+                      height: 20,
                     ),
-                  ),
+                    // Text("${model!.rectangle.name}"),
+                        SizedBox(
+                      height: 60,
+                    ),
+                    // TextFormField(
+                    //   controller:,
+                    //   decoration: InputDecoration(label: Text('name')
+                    
+                    // ,border: InputBorder.none),),
+                    // Text("kareem"),
+                    
+          Container(
+            padding: EdgeInsets.all(10),
+            color: Colors.grey,
+            child: Text("time of comming  ${ TimeOfDay.now().format(context)}")),
+
+                    
+                      ],
+                    ),
+                   
+                  ],
                 )
               : Container(
                   margin: const EdgeInsets.only(top: 100),
@@ -238,10 +200,20 @@ class _HomePageState extends State<RegistrationScreen> {
                     height: screenWidth - 100,
                   ),
                 ),
+            
 
           Container(
             height: 50,
           ),
+    // ElevatedButton(onPressed: (){
+    //          Navigator.push(
+    //                             context,
+    //                             MaterialPageRoute(
+    //                                 builder: (context) =>admin(
+    //       age: "name",
+    //       isMale: "time of comming  ${TimeOfDay.now().format(context)}",
+    //       result: image)));
+    //       }, child: Text("admin")),
 
           //section which displays buttons for choosing and capturing images
           Container(
@@ -281,17 +253,23 @@ class _HomePageState extends State<RegistrationScreen> {
                 )
               ],
             ),
-          )
+          ),
+           
         ],
       ),
     );
   }
 }
-// ظهور الصوره والاوجه بالمسطيل
+
 class FacePainter extends CustomPainter {
-  List<Face> facesList;
+  List<Recognition> facesList;
   dynamic imageFile;
-  FacePainter({required this.facesList, required this.imageFile});
+  late Recognition rectangle;
+  FacePainter({
+    required this.facesList,
+    required this.imageFile,
+    // required this.rectangle,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -304,8 +282,18 @@ class FacePainter extends CustomPainter {
     p.style = PaintingStyle.stroke;
     p.strokeWidth = 3;
 
-    for (Face face in facesList) {
-      canvas.drawRect(face.boundingBox, p);
+    for (rectangle in facesList) {
+      canvas.drawRect(rectangle.location, p);
+      TextSpan span = TextSpan(
+          style: const TextStyle(color: Colors.white, fontSize: 90),
+          text: "${rectangle.name}  ${rectangle.distance.toStringAsFixed(2)}");
+      TextPainter tp = TextPainter(
+          text: span,
+          textAlign: TextAlign.left,
+          textDirection: TextDirection.ltr);
+      tp.layout();
+      tp.paint(canvas, Offset(rectangle.location.left, rectangle.location.top));
+      print("${rectangle.name} ");
     }
 
     Paint p2 = Paint();
@@ -323,4 +311,5 @@ class FacePainter extends CustomPainter {
   bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
   }
+  
 }

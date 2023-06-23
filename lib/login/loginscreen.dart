@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../HomeScreen.dart';
+import '../all/HomeScreen.dart';
 import '../social_Register/ShopRegisterScreen.dart';
 import '../LoginCubit/cubit.dart';
 import '../LoginCubit/state.dart';

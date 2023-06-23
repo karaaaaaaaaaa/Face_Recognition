@@ -1,5 +1,4 @@
-import 'package:Face_Recognition/RecognitionScreen.dart';
-import 'package:Face_Recognition/RegistrationScreen.dart';
+
 import 'package:Face_Recognition/Settings/Settings_Screen.dart';
 import 'package:Face_Recognition/layout/fristpage.dart';
 import 'package:Face_Recognition/layout/secound.dart';
@@ -7,7 +6,7 @@ import 'package:Face_Recognition/socialCubit/state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'ML/Recognition.dart';
+import '../ML/Recognition.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

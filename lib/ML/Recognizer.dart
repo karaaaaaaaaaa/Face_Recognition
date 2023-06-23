@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
-import 'package:Face_Recognition/HomeScreen.dart';
+import 'package:Face_Recognition/all/HomeScreen.dart';
 import 'package:image/image.dart';
 import 'package:tflite_flutter_helper_plus/tflite_flutter_helper_plus.dart';
 import 'Recognition.dart';
