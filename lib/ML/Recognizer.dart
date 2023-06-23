@@ -23,16 +23,21 @@ class Recognizer {
   late var _probabilityProcessor;
 
   @override
+  
   String get modelName => 'facenet.tflite';
 
   @override
+  //  it creates a new [TensorBuffer], which satisfies:
+  /// Normalizes a [TensorBuffer] with given mean and stddev: output = (input - mean) / stddev.
+  // output = (input - mean) / stddev
   NormalizeOp get preProcessNormalizeOp => NormalizeOp(127.5, 127.5);
 
   @override
   NormalizeOp get postProcessNormalizeOp => NormalizeOp(0, 1);
 
-
+// Constructs
   Recognizer({int? numThreads}) {
+      /// Creates a new options instance.
     _interpreterOptions = InterpreterOptions();
 
     if (numThreads != null) {
@@ -40,17 +45,25 @@ class Recognizer {
     }
     loadModel();
   }
-
+// Creates interpreter from model
   Future<void> loadModel() async {
     try {
+      // The "interpreter" is an object used in TensorFlow Lite to execute the trained model for face recognition.
+      // The interpreter handles the input image and performs the necessary computational operations
+      // to predict the identity of the face in the image.
+      // modelName==model.tflite
       interpreter =
       await Interpreter.fromAsset(modelName, options: _interpreterOptions);
       print('Interpreter Created Successfully');
 
+  /// Gets the input Tensor for the provided input index.
       _inputShape = interpreter.getInputTensor(0).shape;
+      // shap ==   /// Dimensions of the tensor.
       _outputShape = interpreter.getOutputTensor(0).shape;
       _inputType = interpreter.getInputTensor(0).type;
       _outputType = interpreter.getOutputTensor(0).type;
+      
+// Creates a [TensorBuffer] with specified [shape] and [TfLiteType]
 
       _outputBuffer = TensorBuffer.createFixedSize(_outputShape, _outputType);
       _probabilityProcessor =
@@ -63,9 +76,13 @@ class Recognizer {
   TensorImage _preProcess() {
     int cropSize = min(_inputImage.height, _inputImage.width);
     return ImageProcessorBuilder()
+    // The ResizeWithCropOrPadOp is an operation used for resizing an image 
+    //with cropping or padding to a specified size. 
         .add(ResizeWithCropOrPadOp(cropSize, cropSize))
         .add(ResizeOp(
         _inputShape[1], _inputShape[2], ResizeMethod.nearestneighbour))
+  /// Normalizes a [TensorBuffer] with given mean and stddev: output = (input - mean) / stddev.
+  // output = (input - mean) / stddev
         .add(preProcessNormalizeOp)
         .build()
         .process(_inputImage);
@@ -76,6 +93,7 @@ class Recognizer {
     _inputImage = TensorImage(_inputType);
     _inputImage.loadImage(image);
     _inputImage = _preProcess();
+    // هنحسب وقت الرفع الصوره ووقت الاستحدام
     final pre = DateTime.now().millisecondsSinceEpoch - pres;
     print('Time to load image: $pre ms');
     final runs = DateTime.now().millisecondsSinceEpoch;
@@ -88,6 +106,7 @@ class Recognizer {
     // final pred = getTopProbability(labeledProb);
     print(_outputBuffer.getDoubleList());
     Pair pair = findNearest(_outputBuffer.getDoubleList());
+    // add all information in Recognition Model
     return Recognition(pair.name,location, _outputBuffer.getDoubleList(),pair.distance);
   }
 

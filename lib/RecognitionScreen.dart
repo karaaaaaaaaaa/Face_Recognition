@@ -25,9 +25,11 @@ class _HomePageState extends State<RecognitionScreen> {
   List<Recognition> recognitions = [];
   List<Face> faces = [];
   //TODO declare detector
+  // تحديد ملامح الوجه
   dynamic faceDetector;
 
   //TODO declare face recognizer
+  // object from class Recognizer
   late Recognizer _recognizer;
 
   @override
@@ -71,7 +73,7 @@ class _HomePageState extends State<RecognitionScreen> {
   //TODO face detection code here
   TextEditingController textEditingController = TextEditingController();
   doFaceDetection() async {
-    faces.clear();
+    // faces.clear();
 
     //TODO remove rotation of camera images
     _image = await removeRotation(_image!);
@@ -98,7 +100,7 @@ class _HomePageState extends State<RecognitionScreen> {
     image = await decodeImageFromList(image);
     print("${image.width}   ${image.height}");
 // 1111111111111111
-    recognitions.clear();
+     recognitions.clear();
     for (Face face in faces) {
       Rect faceRect = face.boundingBox;
       num left = faceRect.left < 0 ? 0 : faceRect.left;
@@ -109,14 +111,16 @@ class _HomePageState extends State<RecognitionScreen> {
           faceRect.bottom > image.height ? image.height - 1 : faceRect.bottom;
       num width = right - left;
       num height = bottom - top;
-
+// ############################################3
       //TODO crop face
       File cropedFace = await FlutterNativeImage.cropImage(_image!.path,
           left.toInt(), top.toInt(), width.toInt(), height.toInt());
       final bytes = await File(cropedFace.path).readAsBytes();
       final img.Image? faceImg = img.decodeImage(bytes);
+      
       Recognition recognition =
           _recognizer.recognize(faceImg!, face.boundingBox);
+          // @@@@@@@@@@@@@@@@@
       if (recognition.distance > 1) {
         recognition.name = "Unknown";
       }

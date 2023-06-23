@@ -1,16 +1,10 @@
 import 'package:Face_Recognition/HomeScreen.dart';
-import 'package:Face_Recognition/all/home.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:project/modules/ShopRegisterCubit/state.dart';
 
-
-// import '../../layout/sociallayout.dart';
-// import '../../shared/components/components/components.dart';
-// import '../../shared/network/local/cash_helper.dart';
-import '../ShopRegisterCubit/cubit.dart';
-import '../ShopRegisterCubit/state.dart';
+import '../RegisterCubit/cubit.dart';
+import '../RegisterCubit/state.dart';
 import '../all/components/components/components.dart';
 
 class socialRegisterScreen extends StatelessWidget {

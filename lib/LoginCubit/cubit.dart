@@ -1,4 +1,4 @@
-import 'package:Face_Recognition/ShopLoginCubit/state.dart';
+import 'package:Face_Recognition/LoginCubit/state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

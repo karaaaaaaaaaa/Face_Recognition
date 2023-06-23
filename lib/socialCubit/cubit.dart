@@ -12,11 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../all/components/constants/constants.dart';
-import '../models/CommentModel.dart';
 import '../models/userModel.dart';
-
-
-
 
 class Socialcubit extends Cubit<cubitStates> {
   Socialcubit() : super(initstate());
@@ -36,20 +32,7 @@ class Socialcubit extends Cubit<cubitStates> {
 
  
 
-  int navindex = 0;
-  void changebottomnav(value) {
-    if (value == 1) {
-      Getalluser();
-    }
-    if (value == 2) {
-      emit(bottomnavPOSTstate());
-    } else {
-      navindex = value;
-
-      emit(bottomnavstate());
-    }
-  }
-
+ 
   File? profileImageFile;
   var picker = ImagePicker();
   Future getProfileImage() async {
@@ -152,83 +135,25 @@ class Socialcubit extends Cubit<cubitStates> {
     });
   }
 
-  File? postImageFile;
+  // File? postImageFile;
 
-  Future getpostImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      postImageFile = File(pickedFile.path);
-      print(pickedFile.path.toString());
-      emit(SocialcreatepostImageSuccessState());
-    } else {
-      print('No Image Selected');
-      emit(SocialcreatepostImageErrorState());
-    }
-  }
+  // Future getpostImage() async {
+  //   final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  //   if (pickedFile != null) {
+  //     postImageFile = File(pickedFile.path);
+  //     print(pickedFile.path.toString());
+  //     emit(SocialcreatepostImageSuccessState());
+  //   } else {
+  //     print('No Image Selected');
+  //     emit(SocialcreatepostImageErrorState());
+  //   }
+  // }
 
 
 
-  void createComment(
-      {required String postId,
-      required String comment,
-      required String dataTime}) {
-    // emit(SocialCreateCommentPostsLoadingState());
-    // commentList.add(comment);
-    // print(_commentModel!.text??'null');
-    CommentModel commentModel = CommentModel(
-      name: model!.name,
-      image: model!.image,
-      uid: model!.uid,
-      text: comment,
-      dateTime: dataTime,
-    );
-    FirebaseFirestore.instance
-        .collection('posts')
-        .doc(postId)
-        .collection('Comments')
-        .doc(model!.uid)
-        .collection('user Comment')
-        .add(commentModel.toMap())
-        .then((value) {
-      emit(SocialcommentPostsSuccessState());
-      getComments(postId);
-    }).catchError((error) {
-      emit(SocialcommentPostsErrorState(error.toString()));
-    });
-  }
+  
 
-  List<String> commentList = [];
-  List<CommentModel> commentModelList = [];
-  String? newPostId;
-
-  void getComments(String postId) {
-    emit(SocialGetCommentPostsLoadingState());
-    FirebaseFirestore.instance
-        .collection('posts')
-        .doc(postId)
-        .collection('Comments')
-        .doc(model!.uid)
-        .collection('user Comment')
-        .orderBy('dateTime')
-        .get()
-        .then((value) {
-      commentModelList.clear();
-      commentList.clear();
-      value.docs.forEach((element) {
-        // commentModel=   CommentModel.fromJson(element.data());
-        commentModelList.add(CommentModel.fromJson(element.data()));
-        commentList.add(element.id);
-        emit(SocialGetCommentPostsSuccessState(postId));
-      });
-      print(postId + ' 3');
-      newPostId = postId;
-      print(newPostId);
-      emit(SocialGetCommentPostsSuccessState(postId));
-    }).catchError((error) {
-      emit(SocialGetCommentPostsErrorState(error.toString()));
-      print(error);
-    });
-  }
+ 
 
   List<SocialuserModel> users = [];
 

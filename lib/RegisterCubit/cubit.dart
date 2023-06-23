@@ -1,4 +1,4 @@
-import 'package:Face_Recognition/ShopRegisterCubit/state.dart';
+import 'package:Face_Recognition/RegisterCubit/state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';

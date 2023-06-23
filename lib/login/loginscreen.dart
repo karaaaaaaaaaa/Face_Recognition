@@ -1,4 +1,4 @@
-import 'package:Face_Recognition/all/home.dart';
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -6,9 +6,9 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../HomeScreen.dart';
-import '../Register/ShopRegisterScreen.dart';
-import '../ShopLoginCubit/cubit.dart';
-import '../ShopLoginCubit/state.dart';
+import '../social_Register/ShopRegisterScreen.dart';
+import '../LoginCubit/cubit.dart';
+import '../LoginCubit/state.dart';
 import '../all/components/components/components.dart';
 import '../network/local/cash_helper.dart';
 

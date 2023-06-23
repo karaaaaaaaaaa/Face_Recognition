@@ -20,11 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomePageState extends State<HomeScreen> {
   @override
   int index = 0;
-  List<Widget> pages = [
-    firstlayout(),
-    secoundlayout(),
-    setting()
-  ];
+  List<Widget> pages = [firstlayout(), secoundlayout(), setting()];
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -35,53 +31,9 @@ class _HomePageState extends State<HomeScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body:pages[index],
-      //  Column(
-      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //   children: [
-      //     Container(
-      //         margin: const EdgeInsets.only(top: 100),
-      //         child: Image.asset(
-      //           "images/logo.png",
-      //           width: screenWidth - 40,
-      //           height: screenWidth - 40,
-      //         )),
-      //     Container(
-      //       margin: const EdgeInsets.only(bottom: 50),
-      //       child: Column(
-      //         children: [
-      //           ElevatedButton(
-      //             onPressed: () {
-      //               Navigator.push(
-      //                   context,
-      //                   MaterialPageRoute(
-      //                       builder: (context) => const RegistrationScreen()));
-      //             },
-      //             style: ElevatedButton.styleFrom(
-      //                 minimumSize: Size(screenWidth - 30, 50)),
-      //             child: const Text("Register"),
-      //           ),
-      //           Container(
-      //             height: 20,
-      //           ),
-      //           ElevatedButton(
-      //             onPressed: () {
-      //               Navigator.push(
-      //                   context,
-      //                   MaterialPageRoute(
-      //                       builder: (context) => const recognition()));
-      //             },
-      //             style: ElevatedButton.styleFrom(
-      //                 minimumSize: Size(screenWidth - 30, 50)),
-      //             child: const Text("Recognize"),
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //   ],
-      // ),
+      body: pages[index],
       bottomNavigationBar: BottomNavigationBar(
-        selectedFontSize: 18,
+          selectedFontSize: 18,
           currentIndex: index,
           onTap: (value) {
             setState(() {
@@ -90,8 +42,10 @@ class _HomePageState extends State<HomeScreen> {
           },
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Register"),
-            BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person), label: "Register"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings), label: "Settings"),
           ]),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:Face_Recognition/HomeScreen.dart';
-import 'package:Face_Recognition/all/home.dart';
 import 'package:Face_Recognition/login/loginscreen.dart';
 import 'package:Face_Recognition/socialCubit/cubit.dart';
 import 'package:Face_Recognition/socialCubit/state.dart';
@@ -88,12 +87,12 @@ class myApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider<RegisterCubit>(
-            create: (context) => RegisterCubit(),
-          ),
-          BlocProvider<RecognitionCubit>(
-            create: (context) => RecognitionCubit(),
-          ),
+          // BlocProvider<RegisterCubit>(
+          //   create: (context) => RegisterCubit(),
+          // ),
+          // BlocProvider<RecognitionCubit>(
+          //   create: (context) => RecognitionCubit(),
+          // ),
           BlocProvider(create: (context) => Socialcubit()..GetuserData())
         ],
         child: BlocConsumer<Socialcubit, cubitStates>(

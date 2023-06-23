@@ -21,7 +21,7 @@ required this.result,
       appBar: AppBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: Column(
+       child: Column(
         //  crossAxisAlignment: CrossAxisAlignment.center,
         //  mainAxisAlignment: MainAxisAlignment.center,
           children: [

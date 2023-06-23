@@ -20,12 +20,16 @@ class _HomePageState extends State<RegistrationScreen> {
   //TODO declare variables
   late ImagePicker imagePicker;
   File? _image;
+   //convert _image to readAsBytes TODperform Face Recognition 
   var image;
   List<Face> faces = [];
   //TODO declare detector
+    // تحديد ملامح الوجه
+
   dynamic faceDetector;
 
   //TODO declare face recognizer
+// object from Recognizer Model
   late Recognizer _recognizer;
 
   @override
@@ -36,11 +40,16 @@ class _HomePageState extends State<RegistrationScreen> {
 
     //TODO initialize detector
     final options = FaceDetectorOptions(
+      // قوم بتمكين تصنيف الوجوه،
+      // مما يعني أن مكتشف الوجه سيحاول تصنيف الوجوه المكتشفة إلى فئات مثل "مبتسم"، "عيون مفتوحة"،
         enableClassification: false,
+        //  يقوم بتمكين كشف وتتبع معالم الوجه، والتي تمثل الحدود الخارجية للملامح الوجهية.
         enableContours: false,
+        // يقوم بتمكين كشف وتتبع العلامات الأرضية للوجه مثل العيون والأنف والفم.
         enableLandmarks: false);
 
     //TODO initialize face detector
+    // used to configure تكوين سلوك the behavior of the face detector
     faceDetector = FaceDetector(options: options);
 
     //TODO initialize face recognizer
@@ -69,13 +78,15 @@ class _HomePageState extends State<RegistrationScreen> {
   //TODO face detection code here
   TextEditingController textEditingController = TextEditingController();
   doFaceDetection() async {
-    faces.clear();
+    // faces.clear();
 
     //TODO remove rotation of camera images
     _image = await removeRotation(_image!);
 
     //TODO passing input to face detector and getting detected faces
     final inputImage = InputImage.fromFile(_image!);
+    // ندخل الصوره علي faceDetector
+
     faces = await faceDetector.processImage(inputImage);
 
     //TODO call the method to perform face recognition on detected faces
@@ -95,7 +106,7 @@ class _HomePageState extends State<RegistrationScreen> {
     image = await _image?.readAsBytes();
     image = await decodeImageFromList(image);
     print("${image.width}   ${image.height}");
-
+// المستطيل
     for (Face face in faces) {
       Rect faceRect = face.boundingBox;
       num left = faceRect.left < 0 ? 0 : faceRect.left;
@@ -112,9 +123,11 @@ class _HomePageState extends State<RegistrationScreen> {
           left.toInt(), top.toInt(), width.toInt(), height.toInt());
       final bytes = await File(cropedFace.path).readAsBytes();
       final img.Image? faceImg = img.decodeImage(bytes);
+      // يقوم بتمرير الصورة المُفكَّرة والمستطيل المحدد لدالة 
+      // للقيام بتعرف الوجه واسترجاع بيانات التعرف.
       Recognition recognition =
           _recognizer.recognize(faceImg!, face.boundingBox);
-// 222222222222222222
+
       //TODO show face registration dialogue
       showFaceRegistrationDialogue(cropedFace, recognition);
     }
@@ -157,10 +170,12 @@ class _HomePageState extends State<RegistrationScreen> {
               ),
               ElevatedButton(
                   onPressed: () {
+                    // in HomeScreen registered MAP
                     HomeScreen.registered.putIfAbsent(
                         textEditingController.text, () => recognition);
                     textEditingController.text = "";
                     Navigator.pop(context);
+                    // under 
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Face Registered"),
                     ));
@@ -208,6 +223,7 @@ class _HomePageState extends State<RegistrationScreen> {
                       width: image.width.toDouble(),
                       height: image.width.toDouble(),
                       child: CustomPaint(
+                        // ظهور الصوره والاوجه بالمسطيل
                         painter:
                             FacePainter(facesList: faces, imageFile: image),
                       ),
@@ -271,7 +287,7 @@ class _HomePageState extends State<RegistrationScreen> {
     );
   }
 }
-
+// ظهور الصوره والاوجه بالمسطيل
 class FacePainter extends CustomPainter {
   List<Face> facesList;
   dynamic imageFile;
