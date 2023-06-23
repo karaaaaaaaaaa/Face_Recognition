@@ -10,7 +10,6 @@ import 'Settings/Settings_Screen.dart';
 import 'all/components/bloc_observer.dart';
 import 'all/components/constants/constants.dart';
 import 'all/cubits/RegisterCubit copy/RegisterCubit.dart';
-import 'all/cubits/recognitioncubit/RecognitionCubit.dart';
 import 'layout/secound.dart';
 import 'network/local/cash_helper.dart';
 import 'network/remote/dio_helper.dart';

@@ -5,7 +5,6 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import '../ML/Recognition.dart';
 import '../RecognitionScreen.dart';
 import '../RegistrationScreen.dart';
-import '../all/recognition.dart';
 
 class secoundlayout extends StatefulWidget {
   const secoundlayout({super.key});

@@ -1,7 +1,6 @@
 import 'package:Face_Recognition/RecognitionScreen.dart';
 import 'package:Face_Recognition/RegistrationScreen.dart';
 import 'package:Face_Recognition/Settings/Settings_Screen.dart';
-import 'package:Face_Recognition/all/recognition.dart';
 import 'package:Face_Recognition/layout/fristpage.dart';
 import 'package:Face_Recognition/layout/secound.dart';
 import 'package:Face_Recognition/socialCubit/state.dart';
